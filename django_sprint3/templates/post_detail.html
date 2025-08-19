@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ post.title }}</h2>
+    <p>Автор: {{ post.author.username }}</p>
+    <p>Категория: {{ post.category.title }}</p>
+    <p>Дата публикации: {{ post.published_date }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" style="max-width: 100%; height: auto;">
+    {% endif %}
+    <p>{{ post.content }}</p>
+    {% if confirm_delete %}
+        <p>Вы уверены, что хотите удалить эту публикацию?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+            <a href="{% url 'blog:post_detail' pk=post.pk %}">Отмена</a>
+        </form>
+    {% else %}
+        {% if user.is_authenticated %}
+            <h2>Добавить комментарий</h2>
+            <form method="post" action="{% url 'blog:comment_add' post_id=post.pk %}">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit">Отправить комментарий</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+        {% endif %}
+    {% endif %}
+
+    <h2>Комментарии:</h2>
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <p><strong>{{ comment.author.username }}</strong> - {{ comment.created_date }}</p>
+            <p>{{ comment.content }}</p>
+            {% if user.is_authenticated and user == comment.author %}
+                <a href="{% url 'blog:comment_edit' post_id=post.pk comment_id=comment.pk %}" class="edit-comment-button">Редактировать</a>
+                <a href="{% url 'blog:delete_comment' post_id=post.pk comment_id=comment.pk %}" class="delete-comment-button">Удалить</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}

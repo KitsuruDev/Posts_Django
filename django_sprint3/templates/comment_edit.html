@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Редактирование комментария</h2>
+
+    {% if confirm_delete %}
+        <p>Вы уверены, что хотите удалить этот комментарий?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+            <a href="{% url 'blog:post_detail' pk=post.pk %}">Отмена</a>
+        </form>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить изменения</button>
+            <a href="{% url 'blog:post_detail' pk=post.pk %}">Отмена</a>
+        </form>
+    {% endif %}
+{% endblock %}

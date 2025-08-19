@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Блог{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style_menu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'pages:profile' username=user.username %}">Профиль</a></li>
+                    <li><a href="{% url 'pages:edit_profile' username=user.username %}">Редактировать профиль</a></li>
+                    <li><a href="{% url 'pages:change_password' username=user.username %}">Сменить пароль</a></li>
+                    <li><a href="{% url 'logout' %}">Выйти</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Войти</a></li>
+                    <li><a href="{% url 'pages:register' %}">Регистрация</a></li>
+                {% endif %}
+
+                <li><a href="{% url 'blog:index' %}">Главная</a></li>
+                <li><a href="{% url 'blog:all_posts' %}">Посты</a></li>
+                <li><a href="{% url 'pages:about' %}">О нас</a></li>
+                <li><a href="{% url 'pages:rules' %}">Правила</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {#  Сообщения об успехе/ошибках  #}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

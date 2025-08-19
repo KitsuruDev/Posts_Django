@@ -1,0 +1,120 @@
+/* static/css/styles.css */
+.add-post-button {
+    display: inline-block; /* Делаем кнопку строчно-блочным элементом */
+    float: right;        /* Выравниваем кнопку по правому краю */
+    padding: 10px 20px;
+    background-color: #28a745; /* Зеленый цвет кнопки */
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Добавляем отступ снизу */
+}
+
+.add-post-button:hover {
+    background-color: #218838; /* Более темный цвет при наведении */
+}
+
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-post-button,
+.edit-comment-button {
+    background-color: #FFA07A;  /* Светло-оранжевый цвет (Light Salmon) */
+}
+
+.edit-post-button:hover,
+.edit-comment-button:hover{
+    background-color: #FA8072;  /* Лососевый цвет (Salmon) */
+}
+
+.delete-post-button,
+.delete-comment-button {
+    background-color: #dc3545; /* Красный цвет (Bootstrap danger) */
+}
+
+.delete-post-button:hover,
+.delete-comment-button:hover {
+    background-color: #c82333; /* Более темный красный цвет при наведении */
+}
+
+.edit-post-button,
+.delete-post-button,
+.edit-comment-button,
+.delete-comment-button {
+    display: block;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    width: fit-content;
+    color: white;
+    text-decoration: none;
+    font-size: 0.8em;
+}
+
+.edit-button-container {
+    float: right;
+    align-items: center;
+    width: fit-content;
+    margin-left: auto;
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; /* Фиксированная позиция */
+    z-index: 1; /* Размещаем поверх всего */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Включаем прокрутку, если контент не помещается */
+    background-color: rgba(0,0,0,0.4); /* Полупрозрачный фон */
+}
+
+/* Стили для контента модального окна */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Центрируем по вертикали и горизонтали */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина контента */
+}
+
+/* Стили для кнопки закрытия */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Добавляем расстояние между постами */
+.post {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Для наглядности, можно убрать */
+    background-color: #f9f9f9; /* Для наглядности, можно убрать */
+}
+
+/* Стили для гиперссылки "Читать полный текст" */
+.read-more {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.read-more:hover {
+    color: darkblue;
+}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+    <h1>Последние публикации</h1>
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post">
+                <h3><a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                <ul>
+                    <li>Место: {{ post.location.name }}</li>
+                    <li>Дата: {{ post.published_date }}</li>
+                    <li>Категория: {{ post.category.title }}</li>
+                </ul>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" style="max-width: 100%; height: auto;">
+                {% endif %}
+                <p>{{ post.first_line }}...</p>
+                {% if post.content != post.first_line %}
+                    <span class="read-more" onclick="openModal({{post.id}})">Читать полный текст</span>
+                {% endif %}
+                <h3>{{ post.comments.count }} комментариев</h3>
+            </div>
+            <!-- Модальное окно для отображения полного текста -->
+            <div id="myModal-{{post.id}}" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal({{post.id}})"> &times;</span>
+                    <p>{{post.content}}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+        <script src="{% static 'js/modal.js' %}"></script>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?page=1">&laquo; первая</a>
+                    <a href="?page={{ posts.previous_page_number }}">предыдущая</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ posts.number }} из {{ posts.paginator.num_pages }}.
+                </span>
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}">следующая</a>
+                    <a href="?page={{ posts.paginator.num_pages }}">последняя &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>Нет доступных публикаций.</p>
+    {% endif %}
+{% endblock %}

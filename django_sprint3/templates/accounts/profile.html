@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <h2>Профиль пользователя: {{ user.username }}</h2>
+    <p>Имя: {{ user.first_name }}</p>
+    <p>Фамилия: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+
+    <h3>Публикации пользователя:</h3>
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post">
+                <div class="edit-button-container">
+                    <div>
+                        <a href="{% url 'blog:post_edit' pk=post.pk %}" class="edit-post-button">Редактировать</a>
+                    </div>
+                    <div>
+                        <a href="{% url 'blog:delete_post' post_id=post.pk %}" class="delete-post-button">Удалить</a>
+                    </div>
+                </div>
+                <h3><a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                <p class="date">Опубликовано: {{ post.published_date }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" style="max-width: 100%; height: auto;">
+                {% endif %}
+                <p>{{ post.first_line }}...</p>
+                {% if post.content != post.first_line %}
+                    <span class="read-more" onclick="openModal({{post.id}})">Читать полный текст</span>
+                {% endif %}
+                <h3>{{ post.comments.count }} комментариев</h3>
+            </div>
+        {% endfor %}
+
+        <script src="{% static 'js/modal.js' %}"></script>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?page=1">&laquo; первая</a>
+                    <a href="?page={{ posts.previous_page_number }}">предыдущая</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ posts.number }} из {{ posts.paginator.num_pages }}.
+                </span>
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}">следующая</a>
+                    <a href="?page={{ posts.paginator.num_pages }}">последняя &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>У пользователя нет публикаций.</p>
+    {% endif %}
+
+    {% if user == request.user %}
+    <p><a href="{% url 'pages:edit_profile' username=user.username %}">Редактировать профиль</a></p>
+    <p><a href="{% url 'pages:change_password' username=user.username %}">Изменить пароль</a></p>
+    {% endif %}
+{% endblock %}

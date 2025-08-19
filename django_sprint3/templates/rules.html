@@ -1,0 +1,8 @@
+{% extends 'index.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>{{ text|linebreaksbr }}</p>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if post %}
+        Редактировать публикацию
+    {% else %}
+        Добавить публикацию
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if post %}
+            Редактировать публикацию
+        {% else %}
+            Добавить публикацию
+        {% endif %}
+    </h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            {% if post %}
+                Сохранить изменения
+            {% else %}
+                Опубликовать
+            {% endif %}
+        </button>
+    </form>
+{% endblock %}
